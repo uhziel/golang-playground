@@ -22,10 +22,12 @@ func main() {
 
 	log.Println("-- log prefix --")
 	log.SetPrefix("zhulei ")
+	log.Println("Prefix:", log.Prefix())
 	log.Println("log3")
 	log.Println()
 
 	log.Println("-- log flags --")
 	log.SetFlags(log.Ldate | log.Ltime | log.Lmicroseconds | log.Llongfile | log.Lmsgprefix)
+	log.Println("Flags:", log.Flags())
 	log.Println("log4")
 }
