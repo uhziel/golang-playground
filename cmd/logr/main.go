@@ -11,21 +11,21 @@ import (
 
 func main() {
 	//log := stdr.New(stdlog.New(os.Stderr, "", stdlog.LstdFlags|stdlog.Lshortfile))
-	log := stdr.NewWithOptions(
+	logger := stdr.NewWithOptions(
 		stdlog.New(os.Stderr, "", stdlog.LstdFlags|stdlog.Lshortfile),
 		stdr.Options{
 			LogCaller: stdr.All,
 		},
 	)
 	stdr.SetVerbosity(1)
-	log.Info("hello")
-	submodule1(log)
+	logger.Info("hello")
+	submodule1(logger)
 }
 
-func submodule1(log logr.Logger) {
-	sublog := log.WithName("submodule1").WithValues("key1", 1)
+func submodule1(logger logr.Logger) {
+	sublogger := logger.WithName("submodule1").WithValues("key1", 1)
 
-	sublog.Info("foobar")
-	sublog.Error(fmt.Errorf("error1"), "foobar2", "key2", 2)
-	sublog.V(1).Info("v1 foobar")
+	sublogger.Info("foobar")
+	sublogger.Error(fmt.Errorf("error1"), "foobar2", "key2", 2)
+	sublogger.V(1).Info("v1 foobar")
 }
