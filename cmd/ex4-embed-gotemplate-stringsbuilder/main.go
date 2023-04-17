@@ -9,6 +9,7 @@ import (
 
 type Person struct {
   Name string
+  Foo []string
 }
 
 //go:embed hello.txt
@@ -21,6 +22,10 @@ func main() {
   }
   lilei := Person{
     Name: "lilei",
+    Foo: []string{
+      "bar1",
+      "bar2",
+    },
   }
   b := new(strings.Builder)
   err = tmpl.Execute(b, lilei)
