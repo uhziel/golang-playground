@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
@@ -19,16 +20,22 @@ func boring(name string) <-chan string {
 }
 
 func fanIn(chs ...<-chan string) <-chan string {
+	var wg sync.WaitGroup
 	chAllInOne := make(chan string)
 	for _, ch := range chs {
+		wg.Add(1)
 		go func(ch <-chan string) {
-			for {
-				if v, ok := <-ch; ok {
-					chAllInOne <- v
-				}
+			defer wg.Done()
+			for v := range ch {
+				chAllInOne <- v
 			}
 		}(ch)
 	}
+
+	go func() {
+		wg.Wait()
+		close(chAllInOne)
+	}()
 	return chAllInOne
 }
 
