@@ -6,115 +6,52 @@ import (
 	ex9map "github.com/uhziel/golang-playground/cmd/ex9-map"
 )
 
-func TestCase1(t *testing.T) {
+func TestSearch1(t *testing.T) {
 	m := New()
-	calls := []ex9map.Call{
-		{OP: ex9map.OPAdd, Arg: 1},
-		{OP: ex9map.OPAdd, Arg: 2},
-		{OP: ex9map.OPAdd, Arg: 3},
-		{OP: ex9map.OPSearch, Arg: 0, Check: &ex9map.Check{Want: false}},
-		{OP: ex9map.OPAdd, Arg: 4, PrintAfter: true},
-		{OP: ex9map.OPSearch, Arg: 1, Check: &ex9map.Check{Want: true}},
-		{OP: ex9map.OPRemove, Arg: 0},
-		{OP: ex9map.OPRemove, Arg: 1},
-		{OP: ex9map.OPSearch, Arg: 1, Check: &ex9map.Check{Want: false}},
-	}
-	ex9map.TestMap(t, m, calls)
+	ex9map.TestSearch1(t, m)
 }
 
-func TestCase2(t *testing.T) {
+func TestAdd1(t *testing.T) {
 	m := New()
-	calls := []ex9map.Call{
-		{OP: ex9map.OPAdd, Arg: 0},
-		{OP: ex9map.OPAdd, Arg: 5},
-		{OP: ex9map.OPAdd, Arg: 2},
-		{OP: ex9map.OPAdd, Arg: 1},
-		{OP: ex9map.OPSearch, Arg: 0, Check: &ex9map.Check{Want: true}},
-		{OP: ex9map.OPRemove, Arg: 5, PrintBefore: true, PrintAfter: true},
-		{OP: ex9map.OPSearch, Arg: 2, Check: &ex9map.Check{Want: true}},
-		{OP: ex9map.OPSearch, Arg: 3, Check: &ex9map.Check{Want: false}},
-	}
-	ex9map.TestMap(t, m, calls)
+	ex9map.TestAdd1(t, m)
 }
 
-func TestCase3(t *testing.T) {
+func TestRemove1(t *testing.T) {
 	m := New()
-	calls := []ex9map.Call{
-		{OP: ex9map.OPAdd, Arg: 6},
-		{OP: ex9map.OPAdd, Arg: 4},
-		{OP: ex9map.OPAdd, Arg: 9},
-		{OP: ex9map.OPAdd, Arg: 3},
-		{OP: ex9map.OPRemove, Arg: 4, PrintBefore: true, PrintAfter: true},
-		{OP: ex9map.OPSearch, Arg: 3, Check: &ex9map.Check{Want: true}},
-	}
-	ex9map.TestMap(t, m, calls)
+	ex9map.TestRemove1(t, m)
 }
 
-func TestCase4(t *testing.T) {
-	tree := New()
-	tree.Add(6)
-	tree.Add(4)
-	tree.Add(9)
-	tree.Add(5)
-	tree.Remove(4)
-	t.Logf("%v", tree)
+func TestRemove2(t *testing.T) {
+	m := New()
+	ex9map.TestRemove2(t, m)
 }
 
-func TestCase5(t *testing.T) {
-	tree := New()
-	tree.Add(6)
-	tree.Add(4)
-	tree.Add(9)
-	tree.Add(3)
-	tree.Add(5)
-	tree.Remove(4)
-	t.Logf("%v", tree)
+func TestRemove3(t *testing.T) {
+	m := New()
+	ex9map.TestRemove3(t, m)
 }
 
-func TestCase6(t *testing.T) {
-	tree := New()
-	tree.Add(8)
-	tree.Add(9)
-	tree.Add(1)
-	tree.Add(7)
-	tree.Add(6)
-	tree.Add(5)
-	t.Logf("%v", tree)
-	tree.Remove(8)
-	t.Logf("%v", tree)
+func TestRemove4(t *testing.T) {
+	m := New()
+	ex9map.TestRemove4(t, m)
 }
 
-func TestCase7(t *testing.T) {
-	tree := New()
-	tree.Add(8)
-	tree.Add(9)
-	tree.Add(7)
-	tree.Add(6)
-	tree.Add(5)
-	t.Logf("%v", tree)
-	tree.Remove(8)
-	t.Logf("%v", tree)
+func TestRemove5(t *testing.T) {
+	m := New()
+	ex9map.TestRemove5(t, m)
 }
 
-func TestCase8(t *testing.T) {
-	tree := New()
-	tree.Add(1)
-	tree.Add(8)
-	tree.Add(9)
-	tree.Add(2)
-	tree.Add(7)
-	tree.Add(6)
-	tree.Add(5)
-	t.Logf("%v", tree)
-	tree.Remove(8)
-	t.Logf("%v", tree)
+func TestRemove6(t *testing.T) {
+	m := New()
+	ex9map.TestRemove6(t, m)
 }
 
-func TestCase9(t *testing.T) {
-	tree := New()
-	tree.Add(1)
-	tree.Add(1)
-	t.Logf("%v", tree)
-	tree.Remove(8)
-	t.Logf("%v", tree)
+func TestRemove7(t *testing.T) {
+	m := New()
+	ex9map.TestRemove7(t, m)
+}
+
+func TestRandom1(t *testing.T) {
+	m := New()
+	ex9map.TestRandom1(t, m)
 }
