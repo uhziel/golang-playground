@@ -224,6 +224,8 @@ func TestRandom1(t *testing.T, m Map) {
 		{OP: OPSearch, Arg: nodes[(len(nodes)-1)/2], Check: &Check{Want: true}},
 		{OP: OPSearch, Arg: nodes[len(nodes)-1], Check: &Check{Want: true}},
 		{OP: OPSearch, Arg: n + 100, Check: &Check{Want: false}},
+		{OP: OPRemove, Arg: nodes[(len(nodes)-1)/2], Check: &Check{Want: true}},
+		{OP: OPSearch, Arg: nodes[(len(nodes)-1)/2], Check: &Check{Want: false}},
 	}...)
 
 	TestMap(t, m, calls)
