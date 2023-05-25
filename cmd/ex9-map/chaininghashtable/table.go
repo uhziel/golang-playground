@@ -25,11 +25,11 @@ func New() *ChainingHashTable {
 func (t *ChainingHashTable) String() string {
 	var builder strings.Builder
 	builder.WriteString("----------------------------------------\n")
-	for i, key := range t.buckets {
-		if key == nil {
+	for i, bucket := range t.buckets {
+		if bucket == nil {
 			continue
 		}
-		builder.WriteString(fmt.Sprintf("%d: %v\n", i, key))
+		builder.WriteString(fmt.Sprintf("%d: %v\n", i, bucket))
 	}
 
 	return builder.String()
