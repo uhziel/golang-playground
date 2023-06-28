@@ -10,7 +10,7 @@ type Folder struct {
 func (f *Folder) String() string {
 	var builder strings.Builder
 	builder.WriteString(f.Name)
-	builder.WriteByte('\n')
+	builder.Write([]byte("/\n"))
 	for _, child := range f.Children {
 		builder.WriteByte('\t')
 
