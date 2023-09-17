@@ -1,0 +1,2 @@
+2023/09/17 16:52:45 Successfully created uhziel
+2023/09/17 16:52:45 Successfully uploaded. minio.UploadInfo{Bucket:"uhziel", Key:"main.go", ETag:"89398f1dcaa2f5e1416838b929b0ec14", Size:1289, LastModified:time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC), Location:"", VersionID:"", Expiration:time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC), ExpirationRuleID:"", ChecksumCRC32:"", ChecksumCRC32C:"", ChecksumSHA1:"", ChecksumSHA256:""}
