@@ -5,7 +5,6 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"log"
-	"net/url"
 	"time"
 )
 
@@ -46,19 +45,10 @@ func main() {
 		log.Println("Successfully created", bucketName)
 	}
 
-	info, err := client.FPutObject(ctx, bucketName, objectName, filePath, minio.PutObjectOptions{
-		ContentType: contentType,
-	})
+	presignedUrl, err := client.PresignedPutObject(ctx, bucketName, objectName, time.Duration(300)*time.Second)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	log.Printf("Successfully uploaded. %#v\n", info)
-
-	reqParams := url.Values{}
-	reqParams.Set("response-content-disposition", `attachment; filename="main.txt"`)
-	presignedUrl, err := client.PresignedGetObject(ctx, bucketName, objectName, time.Duration(300)*time.Second, reqParams)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	log.Printf("presignedUrl: %s", presignedUrl)
+	log.Println("upload cmd:")
+	log.Printf("curl -X PUT -H 'Content-Type: text/plain' --data-binary '@main.go' '%s'", presignedUrl)
 }
