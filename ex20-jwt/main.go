@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-//var Secret = []byte("abcdefg")
+// var Secret = []byte("abcdefg")
 const Secret = "abcdefg"
 
 func main() {
