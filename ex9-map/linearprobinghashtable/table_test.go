@@ -3,7 +3,7 @@ package linearprobinghashtable
 import (
 	"testing"
 
-	ex9map "github.com/uhziel/golang-playground/cmd/ex9-map"
+	ex9map "github.com/uhziel/golang-playground/ex9-map"
 )
 
 func TestSearch1(t *testing.T) {
