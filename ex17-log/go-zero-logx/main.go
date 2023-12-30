@@ -28,4 +28,13 @@ func main() {
 	logx.ErrorStackf("ErrorStackf:hello %d", 4)
 	logx.Severef("Severef:hello %d", 5)
 	logx.Statf("Statf:hello %d", 6)
+
+	logger := logx.WithContext(ctx)
+	logger.Infof("Infof:hello %d", 7)
+
+	component1(logger.WithFields(logx.Field("component", "1")))
+}
+
+func component1(logger logx.Logger) {
+	logger.Infow("Infow:hello", logx.Field("id", 8))
 }
