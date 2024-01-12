@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func toStream(done <-chan struct{}, nums []int) <-chan int {
+func generator(done <-chan struct{}, nums []int) <-chan int {
 	stream := make(chan int)
 	go func() {
 		defer close(stream)
@@ -22,15 +22,11 @@ func add(done <-chan struct{}, n int, inStream <-chan int) <-chan int {
 	outStream := make(chan int)
 	go func() {
 		defer close(outStream)
-		for {
+		for v := range inStream {
 			select {
 			case <-done:
 				return
-			case v, ok := <-inStream:
-				if !ok {
-					return
-				}
-				outStream <- v + n
+			case outStream <- v + n:
 			}
 		}
 	}()
@@ -66,7 +62,7 @@ func main() {
 
 	done := make(chan struct{})
 	defer close(done)
-	inCh := toStream(done, nums)
+	inCh := generator(done, nums)
 	for v := range multiply(done, 2, add(done, 1, inCh)) {
 		fmt.Println(v)
 	}
