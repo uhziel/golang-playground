@@ -10,7 +10,11 @@ func main() {
 	time.AfterFunc(3*time.Second, func() {
 		close(ch)
 	})
-	ch <- 1
+	select {
+	case ch <- 1:
+	case <-time.After(10 * time.Second):
+		fmt.Println("timer done.")
+	}
 	fmt.Println("done.")
 }
 
