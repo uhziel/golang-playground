@@ -3,11 +3,18 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 	"time"
 )
 
 func main() {
-	tStr := "2024-01-25T02:51:42.691224434Z"
+	input := "2024-01-25T09:15:05.986285209Z [init] Resolving type given VANILLA"
+	tStr, logText, found := strings.Cut(input, " ")
+	if !found {
+		log.Fatalln("log is invalid")
+	} else {
+		fmt.Printf("Cut(%q, \" \") = %q, %q, %v\n", input, tStr, logText, found)
+	}
 
 	t, err := time.Parse(time.RFC3339Nano, tStr)
 	if err != nil {
