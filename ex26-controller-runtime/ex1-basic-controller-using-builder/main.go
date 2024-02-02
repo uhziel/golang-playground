@@ -69,7 +69,7 @@ func (r *ReplicaSetReconciler) Reconcile(
 	if err := r.List(ctx, podList,
 		client.InNamespace(req.Namespace),
 		client.MatchingLabels(replicaSet.Spec.Selector.MatchLabels)); err != nil {
-		return reconcile.Result{}, err
+		return reconcile.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if replicaSet.Labels == nil {
@@ -77,6 +77,7 @@ func (r *ReplicaSetReconciler) Reconcile(
 	}
 	replicaSet.Labels[LabelPodsCount] = strconv.Itoa(len(podList.Items))
 
+	// TODO 它是如何解决 Update 后不触发 reconcile.Result 入队再循环 Reconcile 的
 	if err := r.Update(ctx, replicaSet); err != nil {
 		return reconcile.Result{}, err
 	}
