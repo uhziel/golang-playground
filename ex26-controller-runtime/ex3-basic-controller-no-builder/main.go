@@ -19,6 +19,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 )
@@ -54,6 +55,7 @@ func main() {
 	err = client.Watch(
 		source.Kind(mgr.GetCache(), &appsv1.ReplicaSet{}),
 		&handler.EnqueueRequestForObject{},
+		predicate.GenerationChangedPredicate{},
 	)
 	if err != nil {
 		log.Error(err, "cannot watch ReplicaSet")

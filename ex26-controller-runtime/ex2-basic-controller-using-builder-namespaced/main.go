@@ -19,6 +19,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
@@ -44,7 +45,8 @@ func main() {
 	}
 
 	if err := builder.ControllerManagedBy(mgr).
-		For(&appsv1.ReplicaSet{}).
+		For(&appsv1.ReplicaSet{},
+			builder.WithPredicates(predicate.GenerationChangedPredicate{})).
 		Owns(&corev1.Pod{}).
 		Complete(&ReplicaSetReconciler{
 			Log:    log.WithName("ReplicaSetReconciler"),
