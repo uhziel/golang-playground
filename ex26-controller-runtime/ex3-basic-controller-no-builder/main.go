@@ -9,17 +9,18 @@ import (
 	"github.com/go-logr/logr"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/client-go/rest"
 
-	"sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
 const LabelPodsCount = "570499536.xyz/pods-count"
@@ -34,23 +35,41 @@ func main() {
 				"default": cache.Config{},
 			},
 		},
-		NewCache: func(config *rest.Config, opts cache.Options) (cache.Cache, error) { // 默认为空会直接使用 cache.New 作为 NewCache
-			return cache.New(config, opts)
-		},
 	})
 	if err != nil {
 		log.Error(err, "cannot create a manager")
 		os.Exit(1)
 	}
 
-	if err := builder.ControllerManagedBy(mgr).
-		For(&appsv1.ReplicaSet{}).
-		Owns(&corev1.Pod{}).
-		Complete(&ReplicaSetReconciler{
+	client, err := controller.New("ReplicaSet", mgr, controller.Options{
+		Reconciler: &ReplicaSetReconciler{
 			Log:    log.WithName("ReplicaSetReconciler"),
 			Client: mgr.GetClient(),
-		}); err != nil {
+		},
+	})
+	if err != nil {
 		log.Error(err, "cannot create the controller")
+		os.Exit(1)
+	}
+	err = client.Watch(
+		source.Kind(mgr.GetCache(), &appsv1.ReplicaSet{}),
+		&handler.EnqueueRequestForObject{},
+	)
+	if err != nil {
+		log.Error(err, "cannot watch ReplicaSet")
+		os.Exit(1)
+	}
+	err = client.Watch(
+		source.Kind(mgr.GetCache(), &corev1.Pod{}),
+		handler.EnqueueRequestForOwner(
+			mgr.GetScheme(),
+			mgr.GetRESTMapper(),
+			&appsv1.ReplicaSet{},
+			handler.OnlyControllerOwner(),
+		),
+	)
+	if err != nil {
+		log.Error(err, "cannot watch Pod")
 		os.Exit(1)
 	}
 
