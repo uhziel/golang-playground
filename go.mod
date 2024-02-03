@@ -13,9 +13,12 @@ require (
 require (
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/google/uuid v1.4.0
+	github.com/uhziel/game-operator v0.0.0-20240202021747-ce85d989e462
 	github.com/zeromicro/go-zero v1.6.0
 	golang.org/x/time v0.5.0
 	k8s.io/api v0.28.3
+	k8s.io/apimachinery v0.28.3
+	k8s.io/client-go v0.28.3
 	modernc.org/sqlite v1.28.0
 	sigs.k8s.io/controller-runtime v0.16.3
 )
@@ -98,8 +101,6 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/apiextensions-apiserver v0.28.3 // indirect
-	k8s.io/apimachinery v0.28.3 // indirect
-	k8s.io/client-go v0.28.3 // indirect
 	k8s.io/component-base v0.28.3 // indirect
 	k8s.io/klog/v2 v2.100.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00 // indirect
