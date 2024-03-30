@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(fmt.Errorf("parse token fail: %w", err))
 	}
 
-	log.Println(claims)
+	log.Printf("%#v", claims)
 }
 
 func GenerateToken(username string, expireSeconds int64) (string, error) {
