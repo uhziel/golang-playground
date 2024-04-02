@@ -91,7 +91,12 @@ func main() {
 		setCallbackCookie(w, r, "state", state)
 		setCallbackCookie(w, r, "nonce", nonce)
 
-		authCodeURL := config.AuthCodeURL(state, oidc.Nonce(nonce))
+		authCodeURL := config.AuthCodeURL(
+			state,
+			oidc.Nonce(nonce),
+			oauth2.AccessTypeOffline,
+			oauth2.ApprovalForce,
+		)
 		log.Printf("redirect to %s", authCodeURL)
 		http.Redirect(w, r, authCodeURL, http.StatusFound)
 	})
