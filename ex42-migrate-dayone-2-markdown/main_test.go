@@ -9,6 +9,8 @@ import (
 
 const (
 	input0 = `	Date:	September 23, 2014 at 13:34
+	Tags:	皮鞋
+	Starred
 
 第一次使用 Day One
 
@@ -181,7 +183,7 @@ location: 建国路75号, 北京市, 中国
 Weather: -1° Mostly Clear
 ---
 
-![2018-1-20.jpg](../../assets/2018-1-20.jpg)
+![2014-10-26 (1).jpg](../../assets/2014-10-26%20%281%29.jpg)
 
 第一次使用 Day One`
 
@@ -212,7 +214,7 @@ func TestExportDayOne(t *testing.T) {
 					Date:     time.Date(2014, time.September, 23, 13, 34, 0, 0, beijingTZ),
 					Location: "建国路75号, 北京市, 中国",
 					Weather:  "-1° Mostly Clear",
-					Photo:    "2018-1-20.jpg",
+					Photo:    "2014-10-26 (1).jpg",
 					Content: []string{
 						"第一次使用 Day One",
 					},

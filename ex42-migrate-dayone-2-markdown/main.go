@@ -105,6 +105,8 @@ func (f *FSM) Push(line string) *DiaryEntry {
 			f.entry.Weather = sections[2]
 		} else if sections[1] == "Photo:" {
 			f.entry.Photo = sections[2]
+		} else if sections[1] == "Tags:" {
+		} else if sections[1] == "Starred" {
 		} else {
 			panic(fmt.Errorf("metadata invalid line=%s", line))
 		}
@@ -165,19 +167,28 @@ Weather: {{.Weather}}
 ---
 {{- if .Photo}}
 
-![{{.Photo}}](../../assets/{{.Photo}})
+![{{.Photo}}](../../assets/{{.PhotoEscaped}})
 {{- end}}
 
 {{.Content -}}
 `
 
 type DiaryTmplArgs struct {
-	Title    string
-	Date     string
-	Location string
-	Weather  string
-	Photo    string
-	Content  string
+	Title        string
+	Date         string
+	Location     string
+	Weather      string
+	Photo        string
+	PhotoEscaped string
+	Content      string
+}
+
+func escape(s string) string {
+	s = strings.ReplaceAll(s, " ", "%20")
+	s = strings.ReplaceAll(s, "(", "%28")
+	s = strings.ReplaceAll(s, ")", "%29")
+
+	return s
 }
 
 func exportDayOne(entries []DiaryEntry) []FileEntry {
@@ -190,12 +201,13 @@ func exportDayOne(entries []DiaryEntry) []FileEntry {
 
 	for _, entry := range entries {
 		args := DiaryTmplArgs{
-			Title:    entry.Date.Format("2006-01-02 15:04"),
-			Date:     entry.Date.Format(time.RFC3339),
-			Location: entry.Location,
-			Weather:  entry.Weather,
-			Photo:    entry.Photo,
-			Content:  strings.Join(entry.Content, "\n"),
+			Title:        entry.Date.Format("2006-01-02 15:04"),
+			Date:         entry.Date.Format(time.RFC3339),
+			Location:     entry.Location,
+			Weather:      entry.Weather,
+			Photo:        entry.Photo,
+			PhotoEscaped: escape(entry.Photo),
+			Content:      strings.Join(entry.Content, "\n"),
 		}
 
 		b := new(strings.Builder)
