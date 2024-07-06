@@ -23,5 +23,5 @@ func main() {
 	for v := range intStream {
 		fmt.Fprintln(&stdoutBuilder, v)
 	}
-	fmt.Fprintln(&stdoutBuilder, "cosumer done.")
+	fmt.Fprintln(&stdoutBuilder, "consumer done.")
 }
