@@ -172,6 +172,7 @@ func orDone(done <-chan struct{}, inStream <-chan int) <-chan int {
 		for {
 			select {
 			case <-done:
+				return
 			case v, ok := <-inStream:
 				if !ok {
 					return
