@@ -92,7 +92,7 @@ func doWork(done <-chan struct{}, _ time.Duration) <-chan struct{} {
 
 func main() {
 	done := make(chan struct{})
-	time.AfterFunc(15*time.Second, func() { defer close(done) })
+	time.AfterFunc(15*time.Second, func() { close(done) })
 
 	steward := newSteward(3*time.Second, doWork)
 	for range steward(done, 1*time.Second) {
