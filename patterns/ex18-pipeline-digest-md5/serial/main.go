@@ -16,7 +16,7 @@ func MD5Sum(root string) (map[string][md5.Size]byte, error) {
 			return err
 		}
 
-		if !d.Type().IsRegular() {
+		if !d.Type().IsRegular() { // 防止 path 是链接但链接到 dir 的情况，os.ReadFile() 会 follow ln 导致因为是目录而失败
 			return nil
 		}
 
