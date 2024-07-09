@@ -12,12 +12,12 @@ import (
 func MD5Sum(root string) (map[string][md5.Size]byte, error) {
 	results := make(map[string][md5.Size]byte)
 	err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
-		if d.IsDir() {
-			return nil
+		if err != nil { // 这个判断应该放在最前，防止出现 root 为 `...` 出现 d 为 nil 的情况
+			return err
 		}
 
-		if err != nil {
-			return err
+		if !d.Type().IsRegular() {
+			return nil
 		}
 
 		data, err := os.ReadFile(path)
@@ -33,7 +33,7 @@ func MD5Sum(root string) (map[string][md5.Size]byte, error) {
 	})
 
 	if err != nil {
-		return nil, err
+		return results, err
 
 	}
 	return results, nil
@@ -58,6 +58,6 @@ func main() {
 	sort.Strings(paths)
 
 	for _, path := range paths {
-		fmt.Printf("%x %s", results[path], path)
+		fmt.Printf("%x %s\n", results[path], path)
 	}
 }
