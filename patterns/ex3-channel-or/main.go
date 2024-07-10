@@ -8,7 +8,22 @@ import (
 	"time"
 )
 
-func orDone(channels ...<-chan any) <-chan any {
+/* 会出现重复 close(ch) 而导致的 panic
+func or2(channels ...<-chan any) <-chan any {
+	out := make(chan any)
+
+	for _, ch := range channels {
+		go func(ch <-chan any) {
+			<-ch
+			close(out)
+		}(ch)
+	}
+
+	return out
+}
+*/
+
+func or(channels ...<-chan any) <-chan any {
 	switch len(channels) {
 	case 0:
 		return nil
@@ -31,7 +46,7 @@ func orDone(channels ...<-chan any) <-chan any {
 			case <-channels[0]:
 			case <-channels[1]:
 			case <-channels[2]:
-			case <-orDone(append(channels[3:], orCh)...):
+			case <-or(append(channels[3:], orCh)...):
 			}
 		}
 	}()
@@ -54,8 +69,8 @@ func main() {
 
 	doneAfter1Sec := newAfterCh(time.Second)
 	doneAfter3Sec := newAfterCh(3 * time.Second)
-	for v := range orDone(doneAfter1Sec, doneAfter3Sec) {
+	for v := range or(doneAfter1Sec, doneAfter3Sec) {
 		fmt.Println(v)
 	}
-	fmt.Printf("done after %vs", time.Since(start))
+	fmt.Printf("done after %v\n", time.Since(start))
 }
