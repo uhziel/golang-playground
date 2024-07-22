@@ -76,6 +76,7 @@ func createDeploy(ctx context.Context, deployClient typedappsv1.DeploymentInterf
 		},
 	}
 
+	// 注意, newDeploy 是一个被创建后实际被存储到 etcd 的 object，deploy 中没指定的值在 newDeploy 会被填充实际值。
 	newDeploy, err := deployClient.Create(ctx, deploy, metav1.CreateOptions{})
 	if err != nil {
 		return errors.New("failed to create deploy")
