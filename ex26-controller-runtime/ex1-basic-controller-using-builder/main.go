@@ -78,6 +78,8 @@ func (r *ReplicaSetReconciler) Reconcile(
 	replicaSet.Labels[LabelPodsCount] = strconv.Itoa(len(podList.Items))
 
 	// TODO 它是如何解决 Update 后不触发 reconcile.Result 入队再循环 Reconcile 的
+	// 看着和 For(&appsv1.ReplicaSet{}, builder.WithPredicates(predicate.GenerationChangedPredicate{})) 有关
+	// 但是本 main.go 并没有加上该 predicate。不会循环的原因是？
 	if err := r.Update(ctx, replicaSet); err != nil {
 		return reconcile.Result{}, err
 	}
