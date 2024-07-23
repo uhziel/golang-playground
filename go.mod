@@ -11,10 +11,11 @@ require (
 )
 
 require (
+	github.com/casbin/casbin/v2 v2.87.1
 	github.com/coreos/go-oidc/v3 v3.9.0
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/google/uuid v1.4.0
-	github.com/uhziel/game-operator v0.0.0-20240202021747-ce85d989e462
+	github.com/uhziel/game-operator v0.0.0-20240719015502-10acc7088302
 	github.com/zeromicro/go-zero v1.6.0
 	golang.org/x/oauth2 v0.13.0
 	golang.org/x/time v0.5.0
@@ -28,7 +29,6 @@ require (
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
-	github.com/casbin/casbin/v2 v2.87.1 // indirect
 	github.com/casbin/govaluate v1.1.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
