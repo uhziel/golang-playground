@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: foobar
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    stdin: true
+    tty: true
+# container busybox 加上 stdin, tty 后就不会自动退出程序了。不加会让 sh 读取到 stdin 为 EOF 而 exit code 0。
+# 必须用 kubectl attach foobar -it 才能访问
+# 用 kubectl attach foobar 访问会失败，因为需要 stdin, tty
