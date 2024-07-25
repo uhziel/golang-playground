@@ -182,12 +182,12 @@ func (c *Controller) reconcile(key string) error {
 
 func (c *Controller) handleErr(err error, item any) {
 	if c.queue.NumRequeues(item) < 3 {
-		c.queue.AddRateLimited(item)
-		return
+		c.queue.AddRateLimited(item) // 只要queue中 waitChannel 的缓冲区还够，就不会阻塞在这里
+	} else {
+		// 抛弃它，已经错误太多次拯救不了
+		c.queue.Forget(item)
+		runtime.HandleError(fmt.Errorf("cannot handle err=%v item=%v", err, item))
 	}
-
-	c.queue.Forget(item)
-	runtime.HandleError(fmt.Errorf("cannot handle err=%v item=%v", err, item))
 }
 
 func main() {
