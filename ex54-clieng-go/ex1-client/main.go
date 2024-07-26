@@ -14,14 +14,12 @@ import (
 	"k8s.io/client-go/util/homedir"
 )
 
-func connectToK8s(kubeconfig string) *kubernetes.Clientset {
-	// use the current context in kubeconfig
+func newClientSet(kubeconfig string) *kubernetes.Clientset {
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	// create the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
@@ -77,7 +75,7 @@ func main() {
 	}
 	flag.Parse()
 
-	clientset := connectToK8s(*kubeconfig)
+	clientset := newClientSet(*kubeconfig)
 
 	createJob(clientset, "cppcheck-job", "hello-world")
 }
