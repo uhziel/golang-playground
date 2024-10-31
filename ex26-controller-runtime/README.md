@@ -30,7 +30,7 @@ cluster 是对 client 的更高封装，是 controller-runtime 把纯 client 相
 
 ### Get 可不带选项
 
-```
+```go
 	var serverZone framwv1alpha1.ServerZone
 	if err := r.Get(ctx, req.NamespacedName, &serverZone); err != nil {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
@@ -39,7 +39,7 @@ cluster 是对 client 的更高封装，是 controller-runtime 把纯 client 相
 
 ### List
 
-```
+```go
 	var nodes v1.NodeList
 	if err := r.List(ctx, &nodes, client.MatchingFields{nodeCodeAnalysisKey: "true"}); err != nil {
 		return ctrl.Result{}, err
