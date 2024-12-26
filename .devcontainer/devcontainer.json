@@ -1,3 +1,6 @@
 {
-  "image": "golang:1.22"
+  "image": "golang:1.22",
+  "features": {
+		"ghcr.io/rio/features/skaffold:2": {"version": "2.13.2"}
+	}
 }
