@@ -9,5 +9,10 @@
         "golang.go"
       ]
     }
+  },
+  "portsAttributes": {
+    "50001": {
+      "label": "ex7-http-server"
+    }
   }
 }
