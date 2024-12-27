@@ -1,4 +1,8 @@
 {
+  "containerEnv": {
+    "TENCENTCLOUD_SECRET_ID": "${localEnv:TENCENTCLOUD_SECRET_ID}",
+    "TENCENTCLOUD_SECRET_KEY": "${localEnv:TENCENTCLOUD_SECRET_KEY}"
+  },
   "mounts": [
     "source=${localEnv:HOME}/go,target=/go,type=bind,consistency=cached"
   ],
