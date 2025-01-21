@@ -6,3 +6,4 @@
 - ex12-http-server-fileserver
 - ex13-http-server-servefile
 - ex56-http-server-detail
+- ex57-http-client-detail
