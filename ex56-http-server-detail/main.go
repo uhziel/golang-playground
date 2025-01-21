@@ -13,6 +13,11 @@ func main() {
 		w.Write([]byte("hello"))
 	})
 
+	server := &http.Server{
+		Addr:    addr,
+		Handler: mux,
+	}
+
 	log.Println("listen at", addr)
-	log.Fatalln(http.ListenAndServe(addr, mux))
+	log.Fatalln(server.ListenAndServe())
 }
