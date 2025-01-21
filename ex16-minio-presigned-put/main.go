@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"time"
@@ -51,13 +51,30 @@ func init() {
 	}
 }
 
+type PresignResp struct {
+	URL  string `json:"url"`
+	CURL string `json:"curl"`
+}
+
 func s3PresignHandler(w http.ResponseWriter, r *http.Request) {
 	presignedUrl, err := minioClient.PresignedPutObject(ctx, bucketName, objectName, time.Duration(300)*time.Second)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	io.WriteString(w, fmt.Sprintf("curl -X PUT -H 'Content-Type: text/plain' --data-binary '@%s' '%s'", objectName, presignedUrl))
+
+	resp := PresignResp{
+		URL:  presignedUrl.String(),
+		CURL: fmt.Sprintf("curl -X PUT -H 'Content-Type: text/plain' --data-binary '@%s' '%s'", objectName, presignedUrl),
+	}
+
+	data, err := json.Marshal(resp)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	w.Write(data)
 }
 
 func main() {

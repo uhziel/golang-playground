@@ -27,9 +27,39 @@
     </style>
   </head>
   <body class="container document">
-    <p>hello</p>
+    <div>
+      <input type="file" id="file">
+    </div>
+    <div>
+      <button onclick="upload()" >上传</button>
+    </div>
+    <div>
+      <p>结果</p>
+      <p id="result"></p>
+    </div>
     <script>
-      console.log("hello world")
+      function uploadsync() {
+        upload()
+      }
+      async function upload() {
+        try {
+          const inputFileElem = document.querySelector("#file")
+          for (const file of inputFileElem.files) {
+            console.log("upload ", file.name)
+            const resp = await fetch("/presign")
+            const res = await resp.json()
+            
+            await fetch(res.url, {
+              method: 'PUT',
+              body: file,
+            })
+
+            document.querySelector("#result").innerHTML = "上传成功"
+          }
+        } catch (e) {
+          document.querySelector("#result").innerHTML = e.name + " " + e.message
+        }
+      }
     </script>
   </body>
 </html>
