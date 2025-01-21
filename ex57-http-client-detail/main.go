@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	resp, err := http.Get("http://example.com")
+	client := &http.Client{}
+	resp, err := client.Get("http://example.com")
 	if err != nil {
 		panic(err)
 	}
