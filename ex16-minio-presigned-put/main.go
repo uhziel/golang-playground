@@ -62,6 +62,9 @@ func s3PresignHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("GET /presign", s3PresignHandler)
+	http.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "index.html")
+	})
 
 	const addr = ":4567"
 	log.Println("listen at", addr)
