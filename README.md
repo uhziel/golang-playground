@@ -1,3 +1,8 @@
+## minio
+
+- ex15-minio
+- ex16-minio-presigned-put
+
 ## net/http
 
 server
