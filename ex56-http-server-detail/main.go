@@ -5,10 +5,14 @@ import (
 	"net/http"
 )
 
+const addr = "0.0.0.0:4567"
+
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("hello"))
 	})
 
-	log.Fatalln(http.ListenAndServe("0.0.0.0:4567", nil))
+	log.Println("listen at", addr)
+	log.Fatalln(http.ListenAndServe(addr, mux))
 }
