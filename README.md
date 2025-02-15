@@ -17,3 +17,7 @@ client
 
 - ex6-http-client
 - ex57-http-client-detail
+
+## array/slice
+
+- ex32-append
