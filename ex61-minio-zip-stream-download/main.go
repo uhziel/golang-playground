@@ -75,6 +75,7 @@ func main() {
 				fmt.Println("cannot open object:", v.Key)
 				continue
 			}
+			defer obj.Close()
 
 			_, err = io.Copy(cw, obj)
 			if err != nil {
