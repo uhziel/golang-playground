@@ -1,8 +1,14 @@
 package main
 
+// 参考了
+// https://www.8kiz.cn/archives/24601.html
+// https://github.com/minio/console/blob/63c6d8952bf148c20019c574da5dfa9b30c4d0cf/api/user_objects.go#L576
+
 import (
+	"archive/zip"
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 
@@ -38,13 +44,43 @@ func init() {
 
 func main() {
 	http.HandleFunc("POST /download", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Content-Disposition", "attachment; filename=hello.zip")
+		w.Header().Add("Content-Type", "application/zip")
+
+		zw := zip.NewWriter(w)
+		defer zw.Close()
+
 		chObjects := minioClient.ListObjects(ctx, bucketName, minio.ListObjectsOptions{
 			Prefix:    prefix,
 			Recursive: true,
 		})
 
 		for v := range chObjects {
-			fmt.Println(v.Key)
+			if v.Err != nil {
+				log.Fatalln(v.Err)
+				break
+			}
+
+			cw, err := zw.CreateHeader(&zip.FileHeader{
+				Name:     v.Key,
+				Method:   zip.Store,
+				Modified: v.LastModified,
+			})
+			if err != nil {
+				continue
+			}
+
+			obj, err := minioClient.GetObject(ctx, bucketName, v.Key, minio.GetObjectOptions{})
+			if err != nil {
+				fmt.Println("cannot open object:", v.Key)
+				continue
+			}
+
+			_, err = io.Copy(cw, obj)
+			if err != nil {
+				fmt.Println("send object fail:", v.Key)
+				continue
+			}
 		}
 	})
 
