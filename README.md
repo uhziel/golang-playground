@@ -2,6 +2,7 @@
 
 - ex15-minio
 - ex16-minio-presigned-put
+- ex61-minio-zip-stream-download
 
 ## net/http
 
