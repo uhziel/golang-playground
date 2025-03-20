@@ -18,6 +18,7 @@ client
 
 - ex6-http-client
 - ex57-http-client-detail
+- ex62-http-client-head-check-online
 
 ## array/slice
 
