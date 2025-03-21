@@ -68,7 +68,7 @@ func ParseToken(tokenString string) (*CustomClaims, error) {
 		jwt.WithSubject("zhulei"),
 		jwt.WithAudience("app1"),
 		jwt.WithExpirationRequired(),
-		jwt.WithIssuedAt(),
+		jwt.WithIssuedAt(), // 默认不会检查 iss，这里指定后开始检查。检查规则为：当前时间应该在 iss 以后。
 		jwt.WithLeeway(3*time.Second),
 		jwt.WithValidMethods([]string{"HS256"}),
 	)
