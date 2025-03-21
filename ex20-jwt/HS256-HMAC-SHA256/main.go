@@ -36,8 +36,11 @@ func GenerateToken(username string, expireSeconds int64) (string, error) {
 	now := time.Now()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, CustomClaims{
 		jwt.RegisteredClaims{
-			Issuer:    "user service",
-			Subject:   username,
+			Issuer:  "user service",
+			Subject: username,
+			Audience: jwt.ClaimStrings{
+				"app1",
+			},
 			ExpiresAt: jwt.NewNumericDate(now.Add(time.Duration(expireSeconds) * time.Second)),
 			NotBefore: jwt.NewNumericDate(now),
 			IssuedAt:  jwt.NewNumericDate(now),
@@ -61,6 +64,11 @@ func ParseToken(tokenString string) (*CustomClaims, error) {
 
 		return []byte(Secret), nil
 	},
+		jwt.WithIssuer("user service"),
+		jwt.WithSubject("zhulei"),
+		jwt.WithAudience("app1"),
+		jwt.WithExpirationRequired(),
+		jwt.WithIssuedAt(),
 		jwt.WithLeeway(3*time.Second),
 		jwt.WithValidMethods([]string{"HS256"}),
 	)
