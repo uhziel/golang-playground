@@ -3,6 +3,7 @@ package main
 // 参考了
 // https://www.8kiz.cn/archives/24601.html
 // https://github.com/minio/console/blob/63c6d8952bf148c20019c574da5dfa9b30c4d0cf/api/user_objects.go#L576
+// 下面的代码是 stream 的，下载超过 1GiB 的 world 世界，占用内存不超过 20MiB
 
 import (
 	"archive/zip"
