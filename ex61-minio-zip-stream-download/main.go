@@ -12,6 +12,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -24,7 +25,7 @@ const (
 	accessKeyID     = "uhziel@gmail.com"
 	secretAccessKey = "o3XZ6RIGsXmCPa"
 	useSSL          = true
-	bucketName      = "test-server-agent"
+	bucketName      = "sv7fj2nf2hmb7"
 	prefix          = "world"
 )
 
@@ -44,7 +45,7 @@ func init() {
 }
 
 func main() {
-	http.HandleFunc("POST /download", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("GET /download", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-Disposition", "attachment; filename=hello.zip")
 		w.Header().Add("Content-Type", "application/zip")
 
@@ -76,9 +77,9 @@ func main() {
 				fmt.Println("cannot open object:", v.Key)
 				continue
 			}
-			defer obj.Close()
 
 			_, err = io.Copy(cw, obj)
+			obj.Close()
 			if err != nil {
 				fmt.Println("send object fail:", v.Key)
 				continue
