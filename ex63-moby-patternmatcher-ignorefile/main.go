@@ -27,6 +27,7 @@ func main() {
 	TestMatch(pm, ".rcon-cli.env")
 	TestMatch(pm, "1.txt")
 	TestMatch(pm, "logs")
+	TestMatch(pm, "logs/")
 	TestMatch(pm, "logs/1.log")
 	TestMatch(pm, "logs/login/1.log")
 }
