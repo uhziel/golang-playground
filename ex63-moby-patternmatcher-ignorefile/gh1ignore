@@ -1,0 +1,16 @@
+.rcon-cli.env
+.rcon-cli.yaml
+logs
+#**/*
+#!banned-ips.json
+#!banned-players.json
+#!eula.txt
+#!ops.json
+#!server.properties
+#!server-icon.png
+#!whitelist.json
+#!logs
+#!config
+#!mods
+#!plugins
+#!world

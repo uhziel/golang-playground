@@ -16,6 +16,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/google/uuid v1.4.0
 	github.com/gorcon/rcon v1.3.5
+	github.com/moby/patternmatcher v0.6.0
 	github.com/prometheus/client_golang v1.21.1
 	github.com/uhziel/game-operator v0.0.0-20240719015502-10acc7088302
 	github.com/zeromicro/go-zero v1.6.0
