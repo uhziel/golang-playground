@@ -18,5 +18,7 @@ func main() {
 		fmt.Fprintf(w, "%s", "hello")
 	})
 
-	log.Fatalln(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
+	addr := fmt.Sprintf(":%d", *port)
+	fmt.Printf("listen at: %s", addr)
+	log.Fatalln(http.ListenAndServe(addr, nil))
 }
